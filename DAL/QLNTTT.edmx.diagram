@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="939c27ec41a240bfb05d0ba850bc7f71" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.CuDan" Width="1.5" PointX="5.25" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.DanhMucDichVu" Width="1.5" PointX="3.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.PhanQuyen" Width="1.5" PointX="8.25" PointY="28.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.Phong" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.sysdiagram" Width="1.5" PointX="7.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.TaiKhoan" Width="1.5" PointX="10.5" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.TaiSan" Width="1.5" PointX="5.25" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.ToaNha" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_TaiKhoan_CuDan" ManuallyRouted="false" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_TaiKhoan_PhanQuyen" ManuallyRouted="false" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_Phong_ToaNha" ManuallyRouted="false" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_TaiSan_Phong" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.LoaiPhong" Width="1.5" PointX="0.75" PointY="11.75" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_Phong_LoaiPhong" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.HopDong" Width="1.5" PointX="0.75" PointY="15.875" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.HopDong_CuDan" Width="1.5" PointX="13.5" PointY="17" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_HopDong_CuDan_CuDan" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_HopDong_CuDan_HopDong" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.HopDong_DichVu" Width="1.5" PointX="8.25" PointY="7" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_HopDong_DichVu_DanhMucDichVu" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_HopDong_DichVu_HopDong" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.HopDong_TaiSan" Width="1.5" PointX="7.5" PointY="21.875" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_HopDong_TaiSan_HopDong" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_HopDong_TaiSan_TaiSan" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.ChiTietHoaDon" Width="1.5" PointX="7.5" PointY="13" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.HoaDon" Width="1.5" PointX="5.25" PointY="12.625" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_ChiTietHoaDon_HoaDon" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_HoaDon_HopDong" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_HoaDon_Phong" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.SoQuy" Width="1.5" PointX="9.75" PointY="30.875" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.PhieuThuChi" Width="1.5" PointX="9.75" PointY="13.125" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_PhieuThuChi_HoaDon" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_SoQuy_PhieuThuChi" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.LichSuThietBi" Width="1.5" PointX="10.5" PointY="17.625" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_LichSuThietBi_Phong" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_LichSuThietBi_TaiSan" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.PhuLucHopDong" Width="1.5" PointX="3" PointY="16.125" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_PhuLucHopDong_HopDong" />
+        <EntityTypeShape EntityType="QLNT_DoVanTieuModel.CongViec" Width="1.5" PointX="13.5" PointY="21" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_CongViec_CuDan" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_CongViec_Phong" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_CongViec_TaiSan" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_LichSuThietBi_CongViec" />
+        <AssociationConnector Association="QLNT_DoVanTieuModel.FK_PhieuThuChi_CongViec" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

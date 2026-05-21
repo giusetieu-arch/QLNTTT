@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Quét QR Code Thiết Bị";
+}
+
+@* ===== TRANG QUÉT QR CODE ===== *@
+
+<div style="max-width:550px; margin:0 auto; padding:12px 0;">
+    @* Back & Header *@
+    <div style="margin-bottom:24px; display:flex; align-items:center; gap:12px;">
+        <a href="javascript:history.back()" class="btn-vl-ghost" style="font-size:13px; font-weight:600; padding:8px 14px;">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+        <div>
+            <h3 style="font-size:22px; font-weight:800; color:var(--text); margin:0; letter-spacing:-0.5px;">📷 Quét QR Thiết Bị</h3>
+            <p style="color:var(--text-2); font-size:13px; margin:4px 0 0;">Quét mã định danh dán trên tài sản căn hộ</p>
+        </div>
+    </div>
+
+    <div class="vl-card" style="box-shadow:var(--shadow-md); overflow:hidden;">
+        @* Card Header *@
+        <div class="vl-card-header" style="background:#fafafa; border-bottom:1px solid var(--border); padding:20px 24px; text-align:center; display:block;">
+            <h5 style="margin:0; font-weight:800; color:var(--text); font-size:16px; letter-spacing:-0.3px;">
+                <i class="bi bi-camera-fill text-primary"></i> HƯỚNG CAMERA VÀO MÃ QR TÀI SẢN
+            </h5>
+        </div>
+
+        @* Card Body *@
+        <div class="vl-card-body" style="padding:28px; text-align:center;">
+            <p style="color:var(--text-2); font-size:13px; margin-bottom:20px; line-height:1.5;">
+                Vui lòng đưa camera của thiết bị lại gần nhãn dán QR code được dán trên tài sản (điều hòa, tủ lạnh, bếp...) để hệ thống tự động nhận diện thông tin sự cố.
+            </p>
+
+            @* QR Reader Container *@
+            <div id="reader" style="max-width:380px; margin:0 auto; border: 2px dashed var(--border) !important; border-radius:12px; overflow:hidden; background:#fafafa; box-shadow:var(--shadow);"></div>
+
+            <div id="result" style="margin-top:16px; color:var(--success); font-weight:700; font-size:14px;"></div>
+
+            @* Demo Simulation Panel *@
+            <div style="background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:16px; margin-top:28px; text-align:left;">
+                <span style="color:var(--primary); font-weight:700; font-size:12px; display:block; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.3px;">
+                    💡 GIẢ LẬP QUÉT NHANH (BÀI DEMO):
+                </span>
+                <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+                    <a href="/CuDan/XulyQuetQR?qrContent=P101_TS01&maCuDan=@ViewBag.MaCuDan" class="btn-vl-ghost" style="font-size:12px; font-weight:600; padding:10px; display:flex; align-items:center; justify-content:center; gap:6px; background:white;">
+                        <i class="bi bi-lightning-charge-fill text-warning"></i> Giả lập: Điều hòa phòng P101 (TS01)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        @* Card Footer *@
+        <div style="background:#f8fafc; border-top:1px solid var(--border); padding:16px 24px; text-align:center; font-size:12px; color:var(--text-3); font-weight:500;">
+            Vietlish Homes Smart IoT QR Scanner
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+    function onScanSuccess(decodedText, decodedResult) {
+        html5QrcodeScanner.clear();
+        document.getElementById('result').innerText = "🎉 Đã nhận diện thành công! Đang truy xuất thông tin thiết bị...";
+        window.location.href = `/CuDan/XulyQuetQR?qrContent=${decodedText}&maCuDan=@ViewBag.MaCuDan`;
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 15, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess);
+</script>

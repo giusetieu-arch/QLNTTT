@@ -1,0 +1,130 @@
+@{
+    ViewData["Title"] = "Báo Hỏng & Sự Cố Thiết Bị";
+}
+
+@* ===== TRANG PHẢN ÁNH SỰ CỐ & BÁO HỎNG PHÒNG ===== *@
+
+<div style="max-width:700px; margin:0 auto; padding:12px 0;">
+    @* Header & Back *@
+    <div style="margin-bottom:24px; display:flex; align-items:center; gap:12px;">
+        <a href="/CuDan/ThongTinPhongThue?maCuDan=@ViewBag.MaCuDan" class="btn-vl-ghost" style="font-size:13px; font-weight:600; padding:8px 14px;">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+        <div>
+            <h3 style="font-size:22px; font-weight:800; color:var(--text); margin:0; letter-spacing:-0.5px;">🛠️ Báo Hỏng & Sự Cố</h3>
+            <p style="color:var(--text-2); font-size:13px; margin:4px 0 0;">Gửi phản ánh kỹ thuật đến Ban Quản Lý</p>
+        </div>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="vl-alert-danger mb-4" style="box-shadow:var(--shadow);">
+            <span style="font-size:20px;">⚠️</span>
+            @ViewBag.Error
+        </div>
+    }
+
+    <div class="vl-card" style="box-shadow:var(--shadow-md); border-top: 4px solid var(--danger);">
+        <div class="vl-card-header" style="background:#fff5f5; border-bottom:1px solid var(--border); padding:20px 24px;">
+            <div style="font-weight:800; font-size:16px; color:var(--danger); display:flex; align-items:center; gap:8px;">
+                <i class="bi bi-wrench-adjustable"></i> PHẢN ÁNH SỰ CỐ & BÁO HỎNG PHÒNG
+            </div>
+            <span style="font-size:12px; color:var(--text-2); font-weight:600;">Thông tin bảo trì</span>
+        </div>
+
+        <div class="vl-card-body" style="padding:28px;">
+            <form asp-action="BaoHong" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="maPhong" value="@ViewBag.MaPhong" />
+                <input type="hidden" name="maCuDan" value="@ViewBag.MaCuDan" />
+                <input type="hidden" name="maTaiSan" value="@ViewBag.MaTaiSan" />
+
+                @* Row: Phòng & Cư dân *@
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+                    <div>
+                        <label class="vl-label">Phòng phản ánh</label>
+                        <input class="vl-form-control" style="font-weight:700; color:var(--primary);" value="@ViewBag.TenPhong" readonly />
+                    </div>
+                    <div>
+                        <label class="vl-label">Mã số cư dân</label>
+                        <input class="vl-form-control" style="font-weight:700;" value="@ViewBag.MaCuDan" readonly />
+                    </div>
+                </div>
+
+                @* Row: QR Asset Scanner info *@
+                <div style="background:var(--warning-light); border:1px solid #fde68a; border-radius:12px; padding:18px; margin-bottom:20px; box-shadow:var(--shadow);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+                        <span style="background:var(--warning); color:white; border-radius:6px; padding:3px 8px; font-size:11px; font-weight:700; display:flex; align-items:center; gap:4px;">
+                            <i class="bi bi-qr-code-scan"></i> Tài sản liên kết QR
+                        </span>
+                        <a href="/CuDan/QuetQR?maCuDan=@ViewBag.MaCuDan" class="btn-vl-ghost" style="font-size:11px; padding:4px 10px; background:white;">
+                            <i class="bi bi-camera"></i> Quét QR thiết bị
+                        </a>
+                    </div>
+                    
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; flex-wrap:wrap;">
+                        <div>
+                            <label class="vl-label" style="font-size:10px; color:var(--warning); font-weight:700; margin-bottom:4px;">Mã thiết bị</label>
+                            <input class="vl-form-control" style="font-size:12px; padding:6px 10px; background:white; font-weight:700; color:var(--text-2);" value="@(ViewBag.MaTaiSan ?? "N/A")" readonly />
+                        </div>
+                        <div>
+                            <label class="vl-label" style="font-size:10px; color:var(--warning); font-weight:700; margin-bottom:4px;">Tên tài sản</label>
+                            <input class="vl-form-control" style="font-size:12px; padding:6px 10px; background:white; font-weight:700; color:var(--danger);" value="@(ViewBag.TenTaiSan ?? "Chưa xác định")" readonly />
+                        </div>
+                        <div>
+                            <label class="vl-label" style="font-size:10px; color:var(--warning); font-weight:700; margin-bottom:4px;">Hãng sản xuất</label>
+                            <input class="vl-form-control" style="font-size:12px; padding:6px 10px; background:white; font-weight:700; color:var(--success);" value="@(ViewBag.HangSanXuat ?? "Chưa cập nhật")" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                @* Input: Tiêu đề *@
+                <div style="margin-bottom:20px;">
+                    <label for="txtTieuDe" class="vl-label">Tiêu đề sự cố / Thiết bị hỏng <span style="color:var(--danger);">*</span></label>
+                    <input type="text" class="vl-form-control" id="txtTieuDe" name="tieuDe" value="@ViewBag.TieuDeMacDinh" placeholder="Ví dụ: Hỏng điều hòa phòng khách, gãy vòi hoa sen..." required />
+                </div>
+
+                @* Input: Mô tả *@
+                <div style="margin-bottom:20px;">
+                    <label for="txtMoTa" class="vl-label">Mô tả chi tiết tình trạng hiện tại <span style="color:var(--danger);">*</span></label>
+                    <textarea class="vl-form-control" id="txtMoTa" name="moTa" rows="4" style="resize:vertical;" placeholder="Vui lòng mô tả rõ hiện tượng hư hại (ví dụ: máy lạnh rò rỉ nước, không mát) để nhân viên kỹ thuật chuẩn bị trước linh kiện thay thế..." required></textarea>
+                </div>
+
+                @* Input: Ảnh đính kèm *@
+                <div style="margin-bottom:24px;">
+                    <label for="fileAnh" class="vl-label">📸 Hình ảnh minh họa sự cố thực tế</label>
+                    <input type="file" class="form-control" id="fileAnh" name="fileAnh" accept="image/*" onchange="previewImage(this);" style="font-size:13px;" />
+                    <div style="margin-top:14px; text-align:center;">
+                        <img id="imgPreview" src="#" alt="Xem trước ảnh" style="max-height:180px; border-radius:8px; border:1px solid var(--border); padding:4px; background:white; display:none;" />
+                    </div>
+                </div>
+
+                @* Action Buttons *@
+                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:20px; margin-top:24px;">
+                    <a href="/CuDan/ThongTinPhongThue?maCuDan=@ViewBag.MaCuDan" class="btn-vl-ghost" style="padding:10px 20px; font-weight:600;">
+                        Quay lại
+                    </a>
+                    <button type="submit" class="btn-vl-danger" style="padding:10px 24px; font-weight:700; box-shadow:0 2px 4px rgba(220,38,38,0.2);">
+                        Gửi Yêu Cầu Kỹ Thuật <i class="bi bi-send-fill" style="margin-left:4px;"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function previewImage(input) {
+        var preview = document.getElementById('imgPreview');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'inline-block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = "#";
+            preview.style.display = 'none';
+        }
+    }
+</script>

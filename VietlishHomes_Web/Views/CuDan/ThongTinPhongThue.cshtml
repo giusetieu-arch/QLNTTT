@@ -1,0 +1,118 @@
+@model IEnumerable<VietlishHomes_Web.Models.HopDong>
+@{
+    ViewData["Title"] = "Phòng Của Tôi – Vietlish Homes";
+    var phongs = ViewBag.DanhSachPhong as IEnumerable<VietlishHomes_Web.Models.Phong>;
+}
+
+@* ===== TRANG CHỦ CƯ DÂN – DANH SÁCH PHÒNG ===== *@
+
+@* Success toast *@
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="vl-alert-success mb-4" id="toast-success" style="justify-content:space-between; box-shadow:var(--shadow);">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;">🎉</span>
+            <span>@TempData["SuccessMessage"]</span>
+        </div>
+        <button onclick="document.getElementById('toast-success').remove()"
+                style="background:none;border:none;color:var(--success);cursor:pointer;font-size:18px;font-weight:bold;">✕</button>
+    </div>
+}
+
+@* Header cư dân *@
+<div style="background:var(--primary-light);border:1px solid var(--border);border-radius:20px;padding:24px 28px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;box-shadow:var(--shadow);">
+    <div>
+        <div style="font-size:22px;font-weight:800;color:var(--text);">
+            👋 Xin chào, <span style="color:var(--primary);">@ViewBag.TenCuDan</span>
+        </div>
+        <div style="color:var(--text-2);font-size:13px;margin-top:6px;display:flex;align-items:center;gap:6px;">
+            Mã cư dân của bạn: <span style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 8px;color:var(--primary);font-weight:700;font-size:12px;">@ViewBag.MaCuDan</span>
+        </div>
+    </div>
+    <a href="/CuDan/Login" class="btn-vl-danger" style="padding:9px 18px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;text-decoration:none;">
+        <i class="bi bi-box-arrow-left"></i> Đăng xuất
+    </a>
+</div>
+
+@* Section title *@
+<div style="margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <div>
+        <h3 style="font-size:17px;font-weight:800;color:var(--text);margin:0;"><i class="bi bi-door-open-fill text-primary"></i> Phòng Đang Lưu Trú</h3>
+        <p style="color:var(--text-2);font-size:13px;margin:4px 0 0;">Tất cả hợp đồng thuê phòng của bạn</p>
+    </div>
+    <a href="/CuDan/QuetQR?maCuDan=@ViewBag.MaCuDan" class="btn-vl-ghost" style="font-size:12px; font-weight:600; padding:6px 12px; gap:6px;">
+        <i class="bi bi-qr-code-scan text-primary"></i> Quét QR thiết bị
+    </a>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div class="vl-alert-info" style="box-shadow:var(--shadow);">
+        <span style="font-size:20px;">ℹ️</span>
+        @ViewBag.Message
+    </div>
+}
+else
+{
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;">
+        @foreach (var item in Model)
+        {
+            var phongHienTai = phongs?.FirstOrDefault(p => p.MaPhong == item.MaPhong);
+            bool conHan = item.NgayKetThuc > DateOnly.FromDateTime(DateTime.Now);
+            string borderColor  = conHan ? "var(--primary)"  : "var(--border)";
+            string accentColor  = conHan ? "var(--success)"  : "var(--text-2)";
+            string statusText   = conHan ? "Đang lưu trú"    : "Hết hạn hợp đồng";
+            string statusBadge  = conHan ? "badge-paid"       : "badge-danger";
+
+            <div class="vl-card" style="border-top:4px solid @borderColor; transition:all 0.2s; box-shadow:var(--shadow);" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='none';">
+                @* Card header *@
+                <div style="padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#fafafa;">
+                    <div>
+                        <div style="font-size:18px;font-weight:800;color:var(--text);">🔑 @item.MaPhong</div>
+                        <div style="font-size:13px;color:var(--text-2);margin-top:2px;font-weight:500;">@(phongHienTai?.TenPhong ?? "Chưa cập nhật tên")</div>
+                    </div>
+                    <span class="@statusBadge">@statusText</span>
+                </div>
+
+                @* Info rows *@
+                <div style="padding:20px;">
+                    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-size:13px;color:var(--text-2);">Giá thuê / tháng</span>
+                            <span style="font-weight:700;color:var(--success);font-size:15px;">@item.GiaThue?.ToString("N0") đ</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <span style="font-size:13px;color:var(--text-2);">Tiền đặt cọc</span>
+                            <span style="font-weight:600;color:var(--text);">@item.TienCoc?.ToString("N0") đ</span>
+                        </div>
+                        <div style="background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-top:4px;">
+                            <div style="font-size:11px;color:var(--text-2);margin-bottom:6px;">
+                                <i class="bi bi-file-earmark-text"></i> Mã Hợp Đồng: <strong style="color:var(--text);">@item.MaHopDong</strong>
+                            </div>
+                            <div style="font-size:11px;color:var(--text-2);">
+                                <i class="bi bi-calendar3"></i> Thời hạn: @item.NgayBatDau?.ToString("dd/MM/yyyy") → @item.NgayKetThuc?.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Buttons *@
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                            <a href="/CuDan/ThongTinHopDong?maPhong=@item.MaPhong" class="btn-vl-ghost" style="justify-content:center;font-size:13px;font-weight:600;padding:9px;">
+                                <i class="bi bi-file-earmark-text text-primary"></i> Hợp đồng
+                            </a>
+                            <a href="/CuDan/DanhSachHoaDon?maPhong=@item.MaPhong&maCuDan=@ViewBag.MaCuDan" class="btn-vl-primary" style="justify-content:center;font-size:13px;font-weight:600;padding:9px;">
+                                <i class="bi bi-wallet2"></i> Hóa đơn
+                            </a>
+                        </div>
+                        <a href="/CuDan/BaoHong?maPhong=@item.MaPhong&maCuDan=@ViewBag.MaCuDan" class="btn-vl-danger"
+                           style="border-radius:8px;padding:10px;font-size:13px;font-weight:700;justify-content:center;display:flex;align-items:center;gap:6px;text-decoration:none;box-shadow:none;">
+                            <i class="bi bi-exclamation-triangle-fill"></i> Báo Hỏng / Sự Cố Thiết Bị
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+@* ===== KẾT THÚC DANH SÁCH PHÒNG ===== *@
